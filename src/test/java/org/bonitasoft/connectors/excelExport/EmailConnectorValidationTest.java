@@ -11,14 +11,13 @@
  * program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
  * Floor, Boston, MA 02110-1301, USA.
  **/
-package org.bonitasoft.connectors.email.templating.test;
+package org.bonitasoft.connectors.excelExport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bonitasoft.connectors.email.templating.EmailConnector;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.bonitasoft.engine.exception.BonitaException;
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class EmailConnectorValidationTest {
     private static final String PLAINMESSAGE = "Plain Message";
 
     private void validateConnector(final Map<String, Object> parameters) throws ConnectorValidationException {
-        final EmailConnector email = new EmailConnector();
+        final ExcelWriteConnectorImpl email = new ExcelWriteConnectorImpl();
         email.setInputParameters(parameters);
         email.validateInputParameters();
     }

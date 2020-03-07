@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+  <implementationId>excel-write-connector-impl</implementationId>
+  <implementationVersion>1.0.0</implementationVersion>
+  <definitionId>excel-write-connector</definitionId>
+  <definitionVersion>1.0.0</definitionVersion>
+  <implementationClassname>org.bonitasoft.connectors.excelExport.ExcelWriteConnectorImpl</implementationClassname>
+  <description>excel-write-connector</description>
+  <jarDependencies/>
+</implementation:connectorImplementation>

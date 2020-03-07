@@ -1,17 +1,4 @@
-/**
- * Copyright (C) 2012 BonitaSoft S.A.
- * BonitaSoft, 32 rue Gustave Eiffel - 38000 Grenoble
- * This library is free software; you can redistribute it and/or modify it under the terms
- * of the GNU Lesser General Public License as published by the Free Software Foundation
- * version 2.1 of the License.
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- * You should have received a copy of the GNU Lesser General Public License along with this
- * program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
- * Floor, Boston, MA 02110-1301, USA.
- **/
-package org.bonitasoft.connectors.email.templating.test;
+package org.bonitasoft.connectors.excelExport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -40,7 +27,6 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.io.IOUtils;
-import org.bonitasoft.connectors.email.templating.EmailConnector;
 import org.bonitasoft.engine.api.APIAccessor;
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.bpm.document.Document;
@@ -57,14 +43,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.subethamail.wiser.Wiser;
 import org.subethamail.wiser.WiserMessage;
 
-// import org.bonitasoft.engine.test.annotation.Cover;
-// import org.bonitasoft.engine.test.annotation.Cover.BPMNConcept;
-
-/**
- * @author Matthieu Chaffotte
- */
 @RunWith(MockitoJUnitRunner.class)
-public class EmailConnectorTest {
+public class ExcelWriteConnectorImplTest {
 
     private static final String SMTP_HOST = "localhost";
 
@@ -149,7 +129,7 @@ public class EmailConnectorTest {
     }
 
     private Map<String, Object> executeConnector(final Map<String, Object> parameters) throws BonitaException {
-        final EmailConnector email = new EmailConnector();
+        final ExcelWriteConnectorImpl email = new ExcelWriteConnectorImpl();
         email.setExecutionContext(engineExecutionContext);
         email.setAPIAccessor(apiAccessor);
         email.setInputParameters(parameters);
@@ -528,7 +508,7 @@ public class EmailConnectorTest {
         when(processAPI.getDocumentContent("storageId")).thenReturn("toto".getBytes());
         Map<String, Object> parameters = getBasicSettings();
         List<String> attachments = Collections.singletonList("Document1");
-        parameters.put(EmailConnector.ATTACHMENTS, attachments);
+        parameters.put(ExcelWriteConnectorImpl.ATTACHMENTS, attachments);
 
         executeConnector(parameters);
 
@@ -556,7 +536,7 @@ public class EmailConnectorTest {
         when(processAPI.getDocumentContent("storageId")).thenReturn("toto".getBytes());
         Map<String, Object> parameters = getBasicSettings();
         List<String> attachments = Collections.singletonList("Document1");
-        parameters.put(EmailConnector.ATTACHMENTS, attachments);
+        parameters.put(ExcelWriteConnectorImpl.ATTACHMENTS, attachments);
 
         executeConnector(parameters);
 
@@ -571,7 +551,7 @@ public class EmailConnectorTest {
         DocumentImpl document2 = createDocument(2L, "toto2");
         List<Document> documents = Arrays.<Document> asList(document1, document2);
         Map<String, Object> parameters = getBasicSettings();
-        parameters.put(EmailConnector.ATTACHMENTS, documents);
+        parameters.put(ExcelWriteConnectorImpl.ATTACHMENTS, documents);
 
         executeConnector(parameters);
 
@@ -592,7 +572,7 @@ public class EmailConnectorTest {
         List<Document> documents2 = Arrays.<Document> asList(document3, document4);
         List lists = Arrays.asList(documents1, documents2);
         Map<String, Object> parameters = getBasicSettings();
-        parameters.put(EmailConnector.ATTACHMENTS, lists);
+        parameters.put(ExcelWriteConnectorImpl.ATTACHMENTS, lists);
 
         executeConnector(parameters);
 
@@ -644,9 +624,9 @@ public class EmailConnectorTest {
         when(engineExecutionContext.getProcessInstanceId()).thenReturn(1L);
         when(processAPI.getLastDocument(1L, "Document1")).thenReturn(document);
         Map<String, Object> parameters = getBasicSettings();
-        parameters.put(EmailConnector.MESSAGE_TEMPLATE, "Hello Mr message\n This is an email content");
+        parameters.put(ExcelWriteConnectorImpl.MESSAGE_TEMPLATE, "Hello Mr message\n This is an email content");
         List<String> attachments = Collections.singletonList("Document1");
-        parameters.put(EmailConnector.ATTACHMENTS, attachments);
+        parameters.put(ExcelWriteConnectorImpl.ATTACHMENTS, attachments);
 
         executeConnector(parameters);
 
@@ -666,9 +646,9 @@ public class EmailConnectorTest {
         when(engineExecutionContext.getProcessInstanceId()).thenReturn(1L);
         when(processAPI.getLastDocument(1L, "Document1")).thenReturn(document);
         Map<String, Object> parameters = getBasicSettings();
-        parameters.put(EmailConnector.MESSAGE_TEMPLATE, "Hello Mr message\n This is an email content");
+        parameters.put(ExcelWriteConnectorImpl.MESSAGE_TEMPLATE, "Hello Mr message\n This is an email content");
         List<String> attachments = Collections.singletonList("Document1");
-        parameters.put(EmailConnector.ATTACHMENTS, attachments);
+        parameters.put(ExcelWriteConnectorImpl.ATTACHMENTS, attachments);
 
         executeConnector(parameters);
 
