@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition:ConnectorDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1">
+    <id>excel-write-connector</id>
+    <version>1.0.0</version>
+    <input mandatory="true" name="sheetName" type="java.lang.String"/>
+    <input mandatory="true" name="header" type="java.util.List"/>
+    <input mandatory="true" name="data" type="java.util.List"/>
+    <output name="excelFile" type="java.io.File"/>
+    <page id="parameters">
+        <widget xsi:type="definition:Text" id="sheetName" inputName="sheetName"/>
+        <widget xsi:type="definition:List" id="Headers" inputName="header"/>
+        <widget xsi:type="definition:List" id="Data" inputName="data"/>
+    </page>
+</definition:ConnectorDefinition>
