@@ -17,3 +17,12 @@ branches:
 
 install: skip
 script: ./mvnw verify
+
+
+deploy:
+  provider: releases
+  overwrite: true
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "FILE TO UPLOAD"
+  skip_cleanup: true
+  draft: true
