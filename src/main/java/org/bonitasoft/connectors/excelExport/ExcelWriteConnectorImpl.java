@@ -33,19 +33,35 @@ public class ExcelWriteConnectorImpl extends AbstractExcelWriteConnectorImpl {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet(getSheetName());
 		AtomicInteger rowCount = new AtomicInteger();
-		Row headerRow = sheet.createRow(rowCount.getAndIncrement());
+		Row row = sheet.createRow(rowCount.getAndIncrement());
 		AtomicInteger columnCount = new AtomicInteger();
 		for (String header1 : headers) {
-			Cell cell1 = headerRow.createCell(columnCount.getAndIncrement());
+			Cell cell1 = row.createCell(columnCount.getAndIncrement());
 			cell1.setCellValue(header1);
 		}
 
 		for (List<Object> dataLine : data) {
-			headerRow = sheet.createRow(rowCount.getAndIncrement());
+			row = sheet.createRow(rowCount.getAndIncrement());
 			columnCount = new AtomicInteger();
-			for (Object header : dataLine) {
-				Cell cell = headerRow.createCell(columnCount.getAndIncrement());
-				cell.setCellValue((String) header);
+			for (Object cellData : dataLine) {
+				int countAndIncrement = columnCount.getAndIncrement();
+				if (cellData != null) {
+					Cell cell = row.createCell(countAndIncrement);
+					String cellClass = cellData.getClass().getSimpleName();
+					switch (cellClass) {
+						case "String":
+							cell.setCellValue((String) cellData);
+							break;
+						case "Double":
+							cell.setCellValue((Double) cellData);
+							break;
+						default:
+							throw new ConnectorException("cell with type " + cellClass + " is not yet supported." +
+									" Consider using a String");
+					}
+				}
+
+
 			}
 		}
 
