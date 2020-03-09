@@ -6,5 +6,7 @@
   <definitionVersion>1.0.0</definitionVersion>
   <implementationClassname>org.bonitasoft.connectors.excelExport.ExcelWriteConnectorImpl</implementationClassname>
   <description>excel-write-connector</description>
-  <jarDependencies/>
+
+$Dependencies$
+
 </implementation:connectorImplementation>
