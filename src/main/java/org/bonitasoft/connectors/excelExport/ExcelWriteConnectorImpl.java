@@ -6,8 +6,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.bonitasoft.engine.connector.ConnectorException;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * The connector execution will follow the steps
@@ -20,78 +24,54 @@ import java.util.List;
  */
 public class ExcelWriteConnectorImpl extends AbstractExcelWriteConnectorImpl {
 
-    @Override
-    protected void executeBusinessLogic() throws ConnectorException {
-        //Get access to the connector input parameters
-        List<String> headers = getHeader();
-        List<Object> data = getData();
+	@Override
+	protected void executeBusinessLogic() throws ConnectorException {
+		//Get access to the connector input parameters
+		List<String> headers = getHeader();
+		List<List<Object>> data = getData();
 
-        //TODO execute your business logic here
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet sheet = workbook.createSheet(getSheetName());
+		AtomicInteger rowCount = new AtomicInteger();
+		Row headerRow = sheet.createRow(rowCount.getAndIncrement());
+		AtomicInteger columnCount = new AtomicInteger();
+		for (String header1 : headers) {
+			Cell cell1 = headerRow.createCell(columnCount.getAndIncrement());
+			cell1.setCellValue(header1);
+		}
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet(getSheetName());
-        int rowCount = 0;
-        Row row = sheet.createRow(rowCount++);
-        int columnCount = 0;
-        for (String header : headers) {
-            Cell cell = row.createCell(columnCount++);
-            cell.setCellValue(header);
-        }
+		for (List<Object> dataLine : data) {
+			headerRow = sheet.createRow(rowCount.getAndIncrement());
+			columnCount = new AtomicInteger();
+			for (Object header : dataLine) {
+				Cell cell = headerRow.createCell(columnCount.getAndIncrement());
+				cell.setCellValue((String) header);
+			}
+		}
 
-        for (Object datum : data) {
+		try {
+			File excelFile = null;
+			excelFile = File.createTempFile("bonita", "");
+			try (FileOutputStream outputStream = new FileOutputStream(excelFile)) {
+				workbook.write(outputStream);
+				workbook.close();
+				setExcelFile(excelFile);
+			}
+		} catch (IOException e) {
+			throw new ConnectorException(e);
+		}
+	}
 
-            row = sheet.createRow(rowCount++);
-            columnCount = 0;
-            datum
-            rowData.each {
-                cellData ->
-                        Cell cell = row.createCell(columnCount++);
-                if (cellData instanceof String) {
-                    cell.setCellValue((String) cellData);
-                } else if (cellData instanceof Integer) {
-                    cell.setCellValue((Integer) cellData);
-                }
-            }
-        }
+	@Override
+	public void connect() throws ConnectorException {
+		//[Optional] Open a connection to remote server
 
+	}
 
-        data.each {
-            rowData ->
-                    row = sheet.createRow(rowCount++);
-            columnCount = 0;
-            rowData.each {
-                cellData ->
-                        Cell cell = row.createCell(columnCount++);
-                if (cellData instanceof String) {
-                    cell.setCellValue((String) cellData);
-                } else if (cellData instanceof Integer) {
-                    cell.setCellValue((Integer) cellData);
-                }
-            }
-        }
-        FileOutputStream outputStream = new FileOutputStream(file);
-        try {
-            outputStream = new FileOutputStream(file);
-            workbook.write(outputStream);
-            workbook.close();
-        } finally {
-            outputStream.close();
-        }
-        //WARNING : Set the output of the connector execution. If outputs are not set, connector fails
-        //setExcelFile(excelFile);
+	@Override
+	public void disconnect() throws ConnectorException {
+		//[Optional] Close connection to remote server
 
-    }
-
-    @Override
-    public void connect() throws ConnectorException {
-        //[Optional] Open a connection to remote server
-
-    }
-
-    @Override
-    public void disconnect() throws ConnectorException {
-        //[Optional] Close connection to remote server
-
-    }
+	}
 
 }

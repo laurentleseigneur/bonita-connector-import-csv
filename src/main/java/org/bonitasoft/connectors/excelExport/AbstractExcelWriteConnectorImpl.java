@@ -9,7 +9,7 @@ public abstract class AbstractExcelWriteConnectorImpl extends AbstractConnector 
 
     protected final static String HEADER_INPUT_PARAMETER = "header";
     protected final static String DATA_INPUT_PARAMETER = "data";
-    protected final static String SHEETNAME_INPUT_PARAMETER = "sheetName";
+    protected final static String SHEET_NAME_INPUT_PARAMETER = "sheetName";
     protected final String EXCELFILE_OUTPUT_PARAMETER = "excelFile";
 
     protected final List getHeader() {
@@ -17,7 +17,7 @@ public abstract class AbstractExcelWriteConnectorImpl extends AbstractConnector 
     }
 
     protected final String getSheetName() {
-        return (String) getInputParameter(SHEETNAME_INPUT_PARAMETER);
+        return (String) getInputParameter(SHEET_NAME_INPUT_PARAMETER);
     }
 
     protected final List getData() {
