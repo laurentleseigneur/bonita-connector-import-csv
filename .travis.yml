@@ -13,7 +13,7 @@ before_cache:
 
 branches:
   only:
-    - master
+    - /.*/
 
 install: skip
 script: ./mvnw verify
