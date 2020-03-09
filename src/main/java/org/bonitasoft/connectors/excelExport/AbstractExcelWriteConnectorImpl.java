@@ -4,6 +4,7 @@ import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractExcelWriteConnectorImpl extends AbstractConnector {
 
@@ -30,15 +31,18 @@ public abstract class AbstractExcelWriteConnectorImpl extends AbstractConnector 
 
     @Override
     public void validateInputParameters() throws ConnectorValidationException {
-        try {
-            getHeader();
-        } catch (ClassCastException cce) {
-            throw new ConnectorValidationException("header type is invalid");
+        Optional<String> sheetName = Optional.ofNullable(getSheetName());
+        Optional<List> header = Optional.ofNullable(getHeader());
+        Optional<List> data = Optional.ofNullable(getData());
+
+        if (!sheetName.isPresent()) {
+            throw new ConnectorValidationException("sheetName is required");
         }
-        try {
-            getData();
-        } catch (ClassCastException cce) {
-            throw new ConnectorValidationException("data type is invalid");
+        if (!header.isPresent()) {
+            throw new ConnectorValidationException("header is required");
+        }
+        if (!data.isPresent()) {
+            throw new ConnectorValidationException("data is required");
         }
 
     }
