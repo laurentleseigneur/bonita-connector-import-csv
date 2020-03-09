@@ -29,7 +29,7 @@ public class ExcelWriteConnectorImpl extends AbstractExcelWriteConnectorImpl {
         //TODO execute your business logic here
 
         XSSFWorkbook workbook = new XSSFWorkbook();
-
+        XSSFSheet sheet = workbook.createSheet(getSheetName());
         int rowCount = 0;
         Row row = sheet.createRow(rowCount++);
         int columnCount = 0;
