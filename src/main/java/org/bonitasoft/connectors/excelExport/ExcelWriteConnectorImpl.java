@@ -16,16 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
-/**
- * The connector execution will follow the steps
- * 1 - setInputParameters() --> the connector receives input parameters values
- * 2 - validateInputParameters() --> the connector can validate input parameters values
- * 3 - connect() --> the connector can establish a connection to a remote server (if necessary)
- * 4 - executeBusinessLogic() --> execute the connector
- * 5 - getOutputParameters() --> output are retrieved from connector
- * 6 - disconnect() --> the connector can close connection to remote server (if any)
- */
 public class ExcelWriteConnectorImpl extends AbstractExcelWriteConnectorImpl {
 
     @Override
